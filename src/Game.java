@@ -21,56 +21,86 @@ class Game {
 			System.out.println("User make a guess");
 			
 			result = askForUserGuess(user, computer);
+			System.out.println(result);
+			System.out.println("Now COMP will guess");
+			result = askForCompGuess(computer, user);
+			if (user.playerGrid.hasLost()) {
+				System.out.println("You have lost");
+				break;
+			}
+			else if (computer.playerGrid.hasLost()) {
+				System.out.println("COMP has lost");
+				break;
+			}
 		}
+		System.out.println("Goodbye");
+		System.exit(0);
 		
 	}
 	
 	private static void setup(Player player) {
+		String setupMode;
 		player.playerGrid.printShips();
 		System.out.println();
-		int shipNumber = 1;
-		int shipIterator = 0;
-		while (player.numOfShipsLeft() > 0) {
-			for (Ship ship : player.ships) {
-				System.out.println("\nShip #"+ shipNumber + ": Length: " + ship.getLength());
-				int row = -1;
-				int column = -1;
-				int shipDirection = -1;
-				while (true) {
-					System.out.print("Type in Row for ship(A - J): ");
-					String userRowSelection = inputReader.next().toUpperCase();
-					row = Converter.converLetterToInt(userRowSelection);
-					
-					System.out.print("Type in a Column for ship(1-10): ");
-					column = inputReader.nextInt() - 1;
+		
+		
+		while (true) {
+			System.out.print("Would you like to auto setup your grid? YES or NO: ");
+			setupMode = inputReader.next().toUpperCase();
 			
-					System.out.print("Type in a Direction: H = Horizontal V = Vertical: ");
-					String direction = inputReader.next().toUpperCase();
-					shipDirection = Converter.convertDirection(direction);
-					
-					if (column >= 0 && column <= 9 && row != -1 && shipDirection != -1) {
-						if (!checkForErrors(row, column, shipDirection, player, shipIterator)) break;
+			if (setupMode.equals("YES") || setupMode.equals("NO")) {
+				break;
+			}
+			System.out.println("Invalid Input");
+		}
+		
+		if (setupMode.equals("YES")) {
+			autoSetup(player);
+		}
+		else {
+			int shipNumber = 1;
+			int shipIterator = 0;
+			while (player.numOfShipsLeft() > 0) {
+				for (Ship ship : player.ships) {
+					System.out.println("\nShip #"+ shipNumber + ": Length: " + ship.getLength());
+					int row = -1;
+					int column = -1;
+					int shipDirection = -1;
+					while (true) {
+						System.out.print("Type in Row for ship(A - J): ");
+						String userRowSelection = inputReader.next().toUpperCase();
+						row = Converter.converLetterToInt(userRowSelection);
+						
+						System.out.print("Type in a Column for ship(1-10): ");
+						column = inputReader.nextInt() - 1;
+				
+						System.out.print("Type in a Direction: H = Horizontal V = Vertical: ");
+						String direction = inputReader.next().toUpperCase();
+						shipDirection = Converter.convertDirection(direction);
+						
+						if (column >= 0 && column <= 9 && row != -1 && shipDirection != -1) {
+							if (!checkForErrors(row, column, shipDirection, player, shipIterator)) break;
+						}
+						System.out.println("Invalid Location for a ship");
 					}
-					System.out.println("Invalid Location for a ship");
-				}
-				System.out.println("Setting ship location for Ship #"+ shipNumber);
-				
-				player.ships[shipIterator].setLocation(row, column);
-				player.ships[shipIterator].setDirection(shipDirection);
-				player.playerGrid.addShip(player.ships[shipIterator]);
-				player.playerGrid.printShips();
-				System.out.println();
-				System.out.println("You have " + player.numOfShipsLeft() + " ships to place!");
-				
-				shipNumber++;
-				shipIterator++;
-				
-			}	
+					System.out.println("Setting ship location for Ship #"+ shipNumber);
+					
+					player.ships[shipIterator].setLocation(row, column);
+					player.ships[shipIterator].setDirection(shipDirection);
+					player.playerGrid.addShip(player.ships[shipIterator]);
+					player.playerGrid.printShips();
+					System.out.println();
+					System.out.println("You have " + player.numOfShipsLeft() + " ships to place!");
+					
+					shipNumber++;
+					shipIterator++;
+					
+				}	
+			}
 		}
 	}
 	private static void setupComputer(Player comp) {
 		System.out.println();
-		int shipNumber = 1;
 		int shipIterator = 0;
 		
 		Randomizer random = new Randomizer();
@@ -98,6 +128,7 @@ class Game {
 		
 	}
 	private static String askForUserGuess(Player user, Player comp) {
+
 		String response = "No guesses yet";
 		int guessedRow = -1;
 		int guessedColumn = -1;
@@ -121,7 +152,12 @@ class Game {
 			literalCol = guessedColumn;
 			
 			if (guessedRow > -1 && guessedRow < 10 && guessedColumn > -1 && guessedColumn < 10) {
+				if (comp.playerGrid.isGuessed(guessedRow, guessedColumn)) {
+					System.out.println("YOU ALEREADY GUESSED THIS LOCATION");
+					continue;
+				}
 				break;
+				
 			}
 			System.out.println("Invalid Location on the Grid");
 		}
@@ -139,6 +175,53 @@ class Game {
 		
 		return response;
 		
+	}
+	private static String askForCompGuess(Player comp, Player user) {
+		String response = "";
+		int row = -1;
+		int column = -1;
+		Randomizer random = new Randomizer();
+		while (true) {
+			row = random.nextInt(0, 9);
+			column = random.nextInt(0, 9);
+			if (row > -1 && row < 10 && column > 0 && column < 10) break;
+		}
+		if (comp.opponentGrid.hasShip(row, column)) {
+			comp.opponentGrid.markHit(row, column);
+			user.playerGrid.markHit(row, column);
+			response = "The COMP hit at Row: " + Converter.converIntToLetter(row) + "; Column: " + (column+1);
+			return response;
+		}
+		else {
+			comp.opponentGrid.markMiss(row, column);
+			user.playerGrid.markMiss(row, column);
+			response = "The COMP missed at Row: " + Converter.converIntToLetter(row) + "; Column: " + (column+1);
+			return response;
+		}
+	}
+	private static void autoSetup(Player player) {
+		int shipIterator = 0;
+		
+		Randomizer random  = new Randomizer();
+		while (player.numOfShipsLeft() > 0) {
+			for (Ship ship : player.ships) {
+				int row = random.nextInt(0, 9);
+				int column = random.nextInt(0, 9);
+				int direction  = random.nextInt(0, 1);
+				
+				while (checkForCompErrors(row, column, direction, player, shipIterator)) {
+					row = random.nextInt(0, 9);
+					column = random.nextInt(0, 9);
+					direction = random.nextInt(0, 1);
+				}
+				
+				ship.setLocation(row, column);
+				ship.setDirection(direction);
+				player.playerGrid.addShip(ship);
+				shipIterator++;
+			}
+		}
+		System.out.println("Auto Setup Complete");
 	}
 	private static boolean checkForErrors(int row, int col, int direction, Player player, int count) {
 		int length = player.ships[count].getLength();

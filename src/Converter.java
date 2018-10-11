@@ -5,6 +5,11 @@ public class Converter {
 		int row = ((int)userRowChar - 65);
 		return row;
 	}
+	
+	public static String converIntToLetter(int row) {
+		char result = (char)(row+65);
+		return Character.toString(result);
+	}
 	public static int convertDirection(String direction) {
 		int result = -1;
 		if (direction.equals("H")) {
@@ -15,4 +20,6 @@ public class Converter {
 		}
 		return result;
 	}
+	
+	
 } 
