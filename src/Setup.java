@@ -4,11 +4,15 @@ public class Setup {
 	public static Scanner inputReader = new Scanner(System.in);
 	public static void setupPlayer(Player player) {
 		String setupMode;
-		//player.playerGrid.printShips();
-		System.out.println();
 		
-		
+		Display.clearScreen();
 		while (true) {
+			System.out.println();
+			for (int i = 0; i < 50; i++) {
+				System.out.print("*");
+			}
+			System.out.println();
+
 			System.out.print("Would you like to auto setup your grid? YES or NO: ");
 			setupMode = inputReader.next().toUpperCase();
 			

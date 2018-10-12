@@ -284,6 +284,12 @@ public class Display {
 		
 	}
 	
+	public static void clearScreen() {
+		for (int i = 0; i < 50; i++) {
+			System.out.println();
+		}
+	}
+	
 	private static int switchCounterToInt(int val) {
 		if ((val - 65) < 0) {
 			throw new IllegalArgumentException("Error Occured In conversion");
