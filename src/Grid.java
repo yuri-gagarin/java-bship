@@ -1,6 +1,6 @@
 
 public class Grid {
-	private Location[][] grid;
+	public Location[][] grid;
 	private int points;
 	
 	public static final int NUM_OF_ROWS = 10;
@@ -57,15 +57,6 @@ public class Grid {
 	public int getColumns() {
 		return NUM_OF_COLUMNS;
 	}
-	public void printStatus() {
-		generalPrintFunction(0);
-	}
-	public void printShips() {
-		generalPrintFunction(1);
-	}
-	public void printCombined() {
-		generalPrintFunction(2);
-	}
 	public boolean hasLost() {
 		if (this.points >= 17) {
 			return true;
@@ -94,92 +85,6 @@ public class Grid {
 				this.grid[i][column].setLengthOfShip(shipLength);
 				this.grid[i][column].setDirectionOfShip(direction);
 			}
-		}
-	}
-	//Type: 0 for status; 1 for ships; 2 for combined
-	private void generalPrintFunction(int type) {
-		System.out.println();
-		//print HEADER
-		System.out.print("\t");
-		for (int i = 1; i <= NUM_OF_COLUMNS; i++) {
-			System.out.print(" "+i+"\t");
-			
-		}
-		System.out.println();
-		
-		//print rows
-		int endLetterForLoop = ((NUM_OF_ROWS - 1) + 65); 
-		for (int i = 65; i <= endLetterForLoop; i++) {
-			char theCharacter = (char)i;
-			System.out.print(theCharacter+"\t");
-			
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				switch(type) {
-				case 0: if (this.grid[switchCounterToInt(i)][j].checkUnguessed()) {
-							System.out.print("[~]\t");	
-						}
-						else if (this.grid[switchCounterToInt(i)][j].checkMiss()) {
-							System.out.print("[0]\t");
-						}
-						else if (this.grid[switchCounterToInt(i)][j].checkHit()) {
-							System.out.print("[X]\t");
-						}
-						break;
-				case 1: if (this.grid[switchCounterToInt(i)][j].hasShip()) {
-							if (this.grid[switchCounterToInt(i)][j].getLengthOfShip() == 2) {
-								System.out.print("[D]\t");
-							}
-							else if (this.grid[switchCounterToInt(i)][j].getLengthOfShip() == 3) {
-								System.out.print("[C]\t");
-							}
-							else if (this.grid[switchCounterToInt(i)][j].getLengthOfShip() == 4) {
-								System.out.print("[B]\t");
-							}
-							else if (this.grid[switchCounterToInt(i)][j].getLengthOfShip() == 5) {
-								System.out.print("[A]\t");
-							}		
-						}
-						else if (!(this.grid[switchCounterToInt(i)][j].hasShip())) {
-							System.out.print("[-]\t");
-						}
-						break;
-				case 2: if (this.grid[switchCounterToInt(i)][j].checkHit()) {
-							System.out.print("[X]\t");
-						}
-						else if (this.grid[switchCounterToInt(i)][j].hasShip()) {
-							if (this.grid[switchCounterToInt(i)][j].getLengthOfShip() == 2) {
-								System.out.print("[D]\t");
-							}
-							else if (this.grid[switchCounterToInt(i)][j].getLengthOfShip() == 3) {
-								System.out.print("[C]\t");
-							}
-							else if (this.grid[switchCounterToInt(i)][j].getLengthOfShip() == 4) {
-								System.out.print("[B]\t");
-							}
-							else if (this.grid[switchCounterToInt(i)][j].getLengthOfShip() == 5) {
-								System.out.print("[A]\t");
-							}
-						}
-						else if (!(this.grid[switchCounterToInt(i)][j].hasShip())) {
-							System.out.print("[-]\t");
-						}
-						break;	
-				
-				}
-					
-			}
-			System.out.println();
-			System.out.println();
-			System.out.println();
-
-		}
-	}
-	public int switchCounterToInt(int val) {
-		if ((val - 65) < 0) {
-			throw new IllegalArgumentException("Error Occured In conversion");
-		}
-		else {
-			return val - 65;
 		}
 	}
 	
