@@ -17,56 +17,57 @@ public class Display {
 		int endLetterForLoop = ((NUM_OF_ROWS - 1) + 65); 
 		for (int i = 65; i <= endLetterForLoop; i++) {
 			char rowCharacter = (char)i;
+			int row = switchCounterToInt(i);
 			System.out.print(rowCharacter+"\t");
 			
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				switch(type) {
-				case 0: if (player.grid[switchCounterToInt(i)][j].checkUnguessed()) {
+				case 0: if (player.grid[row][j].checkUnguessed()) {
 							System.out.print("[~]\t");	
 						}
-						else if (player.grid[switchCounterToInt(i)][j].checkMiss()) {
+						else if (player.grid[row][j].checkMiss()) {
 							System.out.print("[0]\t");
 						}
-						else if (player.grid[switchCounterToInt(i)][j].checkHit()) {
+						else if (player.grid[row][j].checkHit()) {
 							System.out.print("[X]\t");
 						}
 						break;
-				case 1: if (player.grid[switchCounterToInt(i)][j].hasShip()) {
-							if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 2) {
+				case 1: if (player.grid[row][j].hasShip()) {
+							if (player.grid[row][j].getLengthOfShip() == 2) {
 								System.out.print("[D]\t");
 							}
-							else if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 3) {
+							else if (player.grid[row][j].getLengthOfShip() == 3) {
 								System.out.print("[C]\t");
 							}
-							else if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 4) {
+							else if (player.grid[row][j].getLengthOfShip() == 4) {
 								System.out.print("[B]\t");
 							}
-							else if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 5) {
+							else if (player.grid[row][j].getLengthOfShip() == 5) {
 								System.out.print("[A]\t");
 							}		
 						}
-						else if (!(player.grid[switchCounterToInt(i)][j].hasShip())) {
+						else if (!(player.grid[row][j].hasShip())) {
 							System.out.print("[-]\t");
 						}
 						break;
-				case 2: if (player.grid[switchCounterToInt(i)][j].checkHit()) {
+				case 2: if (player.grid[row][j].checkHit()) {
 							System.out.print("[X]\t");
 						}
-						else if (player.grid[switchCounterToInt(i)][j].hasShip()) {
-							if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 2) {
+						else if (player.grid[row][j].hasShip()) {
+							if (player.grid[row][j].getLengthOfShip() == 2) {
 								System.out.print("[D]\t");
 							}
-							else if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 3) {
+							else if (player.grid[row][j].getLengthOfShip() == 3) {
 								System.out.print("[C]\t");
 							}
-							else if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 4) {
+							else if (player.grid[row][j].getLengthOfShip() == 4) {
 								System.out.print("[B]\t");
 							}
-							else if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 5) {
+							else if (player.grid[row][j].getLengthOfShip() == 5) {
 								System.out.print("[A]\t");
 							}
 						}
-						else if (!(player.grid[switchCounterToInt(i)][j].hasShip())) {
+						else if (!(player.grid[row][j].hasShip())) {
 							System.out.print("[-]\t");
 						}
 						break;			
@@ -94,10 +95,10 @@ public class Display {
 		int endLetterForLoop = ((NUM_OF_ROWS-1)+65);
 		for (int i = 65; i <= endLetterForLoop; i++) {
 			char rowCharacter = (char)i;
+			int row = switchCounterToInt(i);
 			System.out.print(rowCharacter + "\t");
 			
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				int row = switchCounterToInt(i);
 				if (player.grid[row][j].checkHit()) {
 					System.out.print("[X]\t");
 				}
@@ -129,7 +130,6 @@ public class Display {
 			//end of user board
 			System.out.print("\t\t"+rowCharacter+"\t");
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				int row = switchCounterToInt(i);
 				if (opponent.grid[row][j].checkHit()) {
 					System.out.print("[X]\t");
 				}
@@ -144,150 +144,20 @@ public class Display {
 			System.out.println();
 		}
 	}
-	public static void printBattleGrid(Grid player, Grid opponent, int type) {
-		
-		System.out.print("\t");
-		for (int i = 1; i <= NUM_OF_COLUMNS; i++) {
-			System.out.print(" "+i+"\t");
-			
-		}
-		System.out.print("\t\t\t");
-		for (int j = 1; j <= NUM_OF_COLUMNS; j++) {
-			System.out.print(" "+j+"\t");
-		}
-		System.out.println();
-		System.out.println();
-
-		
-		//print rows
-		int endLetterForLoop = ((NUM_OF_ROWS - 1) + 65); 
-		for (int i = 65; i <= endLetterForLoop; i++) {
-			char theCharacter = (char)i;
-			System.out.print(theCharacter+"\t");
-			
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				switch(type) {
-				case 0: if (player.grid[switchCounterToInt(i)][j].checkUnguessed()) {
-							System.out.print("[~]\t");	
-						}
-						else if (player.grid[switchCounterToInt(i)][j].checkMiss()) {
-							System.out.print("[0]\t");
-						}
-						else if (player.grid[switchCounterToInt(i)][j].checkHit()) {
-							System.out.print("[X]\t");
-						}
-						break;
-				case 1: if (player.grid[switchCounterToInt(i)][j].hasShip()) {
-							if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 2) {
-								System.out.print("[D]\t");
-							}
-							else if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 3) {
-								System.out.print("[C]\t");
-							}
-							else if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 4) {
-								System.out.print("[B]\t");
-							}
-							else if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 5) {
-								System.out.print("[A]\t");
-							}		
-						}
-						else if (!(player.grid[switchCounterToInt(i)][j].hasShip())) {
-							System.out.print("[-]\t");
-						}
-						break;
-				case 2: if (player.grid[switchCounterToInt(i)][j].checkHit()) {
-							System.out.print("[X]\t");
-						}
-						else if (player.grid[switchCounterToInt(i)][j].hasShip()) {
-							if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 2) {
-								System.out.print("[D]\t");
-							}
-							else if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 3) {
-								System.out.print("[C]\t");
-							}
-							else if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 4) {
-								System.out.print("[B]\t");
-							}
-							else if (player.grid[switchCounterToInt(i)][j].getLengthOfShip() == 5) {
-								System.out.print("[A]\t");
-							}
-						}
-						else if (!(player.grid[switchCounterToInt(i)][j].hasShip())) {
-							System.out.print("[-]\t");
-						}
-						break;	
-				
-				}
-					
-			}
-			System.out.print("\t\t"+theCharacter+"\t");
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				switch(type) {
-				case 0: if (opponent.grid[switchCounterToInt(i)][j].checkUnguessed()) {
-							System.out.print("[~]\t");	
-						}
-						else if (opponent.grid[switchCounterToInt(i)][j].checkMiss()) {
-							System.out.print("[0]\t");
-						}
-						else if (opponent.grid[switchCounterToInt(i)][j].checkHit()) {
-							System.out.print("[X]\t");
-						}
-						break;
-				case 1: if (opponent.grid[switchCounterToInt(i)][j].hasShip()) {
-							if (opponent.grid[switchCounterToInt(i)][j].getLengthOfShip() == 2) {
-								System.out.print("[D]\t");
-							}
-							else if (opponent.grid[switchCounterToInt(i)][j].getLengthOfShip() == 3) {
-								System.out.print("[C]\t");
-							}
-							else if (opponent.grid[switchCounterToInt(i)][j].getLengthOfShip() == 4) {
-								System.out.print("[B]\t");
-							}
-							else if (opponent.grid[switchCounterToInt(i)][j].getLengthOfShip() == 5) {
-								System.out.print("[A]\t");
-							}		
-						}
-						else if (!(opponent.grid[switchCounterToInt(i)][j].hasShip())) {
-							System.out.print("[-]\t");
-						}
-						break;
-				case 2: if (opponent.grid[switchCounterToInt(i)][j].checkHit()) {
-							System.out.print("[X]\t");
-						}
-						else if (opponent.grid[switchCounterToInt(i)][j].hasShip()) {
-							if (opponent.grid[switchCounterToInt(i)][j].getLengthOfShip() == 2) {
-								System.out.print("[D]\t");
-							}
-							else if (opponent.grid[switchCounterToInt(i)][j].getLengthOfShip() == 3) {
-								System.out.print("[C]\t");
-							}
-							else if (opponent.grid[switchCounterToInt(i)][j].getLengthOfShip() == 4) {
-								System.out.print("[B]\t");
-							}
-							else if (opponent.grid[switchCounterToInt(i)][j].getLengthOfShip() == 5) {
-								System.out.print("[A]\t");
-							}
-						}
-						else if (!(opponent.grid[switchCounterToInt(i)][j].hasShip())) {
-							System.out.print("[-]\t");
-						}
-						break;	
-				
-				}
-					
-			}
-				
-			System.out.println();
-			System.out.println();
-			System.out.println();
-		}
-		
-	}
 	
+	//"clear" screen...or something like it
 	public static void clearScreen() {
 		for (int i = 0; i < 50; i++) {
 			System.out.println();
 		}
+	}
+	//info and score header method
+	public static void printInfoHeader(Player user, Player comp) {
+		System.out.println("\t\t\t\tUSER BOARD "+ "\t\t\t\t\t\t\t\t\t\t\t\t" + "COMP BOARD");
+		System.out.println("\t\t\t\tCOMP HITS: "+comp.opponentGrid.getPoints() + "\t\t\t\t\t\t\t\t\t\t\t\t"+"USER HITS: "+ user.opponentGrid.getPoints());
+		System.out.println("\t\t\t\tCOMP GUESSES: "+comp.opponentGrid.getGuesses() + "\t\t\t\t\t\t\t\t\t\t\t\t"+"USER GUESSES: "+ user.opponentGrid.getGuesses());
+		System.out.println("\t\t\t\tCOMP MISSES: "+comp.opponentGrid.getMisses() + "\t\t\t\t\t\t\t\t\t\t\t\t"+"USER MISSES: "+ user.opponentGrid.getMisses());
+
 	}
 	
 	private static int switchCounterToInt(int val) {

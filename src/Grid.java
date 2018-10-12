@@ -2,6 +2,8 @@
 public class Grid {
 	public Location[][] grid;
 	private int points;
+	private int guesses;
+	private int misses;
 	
 	public static final int NUM_OF_ROWS = 10;
 	public static final int NUM_OF_COLUMNS = 10;
@@ -15,15 +17,21 @@ public class Grid {
 				grid[row][column] = tempLocation;
 			}
 		}
+		this.points = 0;
+		this.guesses = 0;
+		this.misses = 0;
 	}
 	//mark a hit
 	public void markHit(int row, int column) {
 		this.grid[row][column].markHit();
+		this.guesses++;
 		this.points++;
 	}
 	//mark a miss 
 	public void markMiss(int row, int column) {
 		this.grid[row][column].markMiss();
+		this.guesses++;
+		this.misses++;
 	}
 	//set the status of this location object
 	public void setStatus(int row, int column, int status) {
@@ -56,6 +64,18 @@ public class Grid {
 	//return number of columns in a grid
 	public int getColumns() {
 		return NUM_OF_COLUMNS;
+	}
+	//return number of guesses 
+	public int getGuesses() {
+		return this.guesses;
+	}
+	//return number of hits
+	public int getPoints() {
+		return this.points;
+	}
+	//return number of misses
+	public int getMisses() {
+		return this.misses;
 	}
 	public boolean hasLost() {
 		if (this.points >= 17) {

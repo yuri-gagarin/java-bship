@@ -1,7 +1,7 @@
 
 public class ErrorChecker {
-	public static boolean checkForCompErrors(int row, int column, int direction, Player player, int count) {
-		int length = player.ships[count].getLength();
+	public static boolean checkForCompErrors(int row, int column, int direction, Player player, Ship ship) {
+		int length = ship.getLength();
 		//check off grid horizontally
 		if (direction == 0) {
 			if ((column+length) > 10) return true;
@@ -25,8 +25,8 @@ public class ErrorChecker {
 		
 		return false;
 	}
-	public static boolean checkPlayerForErrors(int row, int col, int direction, Player player, int count) {
-		int length = player.ships[count].getLength();
+	public static boolean checkPlayerForErrors(int row, int col, int direction, Player player, Ship ship) {
+		int length = ship.getLength();
 		
 		//Check if off the grid horizontally
 		if (direction == 0) {
